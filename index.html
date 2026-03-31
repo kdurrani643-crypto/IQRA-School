@@ -3,269 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greenwood International | Admissions 2026</title>
+    <title>Backup Plan | Spin & Win</title>
     <style>
-        /* Base Styling */
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f4f8;
-            color: #2d3436;
-            scroll-behavior: smooth;
-        }
+        :root { --gold: #f1c40f; --dark-bg: #121212; --card-bg: #1e1e1e; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--dark-bg); color: white; text-align: center; overflow-x: hidden; }
+        
+        .page { display: none; padding: 20px; max-width: 450px; margin: auto; animation: fadeIn 0.5s; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Hero Header */
-        header {
-            background: linear-gradient(rgba(0, 32, 63, 0.8), rgba(0, 32, 63, 0.8)), 
-                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
+        /* Forms */
+        .card { background: var(--card-bg); padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; }
+        input { width: 90%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; background: #2b2b2b; color: white; outline: none; }
+        button { background: var(--gold); color: black; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 95%; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        button:disabled { background: #555; cursor: not-allowed; }
 
-        header h1 { font-size: 3.5rem; margin: 0; letter-spacing: 2px; }
-        .btn-apply {
-            margin-top: 20px;
-            padding: 15px 30px;
-            background: #ffcc00;
-            color: #00203f;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: 0.3s;
+        /* The Professional Wheel */
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 30px auto; }
+        #wheel { 
+            width: 100%; height: 100%; border-radius: 50%; border: 10px solid #333;
+            background: conic-gradient(
+                #e74c3c 0deg 60deg, #f1c40f 60deg 120deg, #3498db 120deg 180deg, 
+                #9b59b6 180deg 240deg, #2ecc71 240deg 300deg, #e67e22 300deg 360deg
+            );
+            position: relative; transition: transform 4s cubic-bezier(0.1, 0, 0.2, 1);
+            overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
-        .btn-apply:hover { background: #fff; transform: scale(1.05); }
+        
+        /* Text on Wheel */
+        .label { position: absolute; width: 50%; height: 50%; transform-origin: bottom right; right: 50%; bottom: 50%; padding-top: 20px; font-weight: bold; font-size: 14px; text-shadow: 1px 1px 2px black; }
+        .l1 { transform: rotate(30deg); }  /* 10 */
+        .l2 { transform: rotate(90deg); }  /* 50 */
+        .l3 { transform: rotate(150deg); } /* 10 */
+        .l4 { transform: rotate(210deg); } /* 100 */
+        .l5 { transform: rotate(270deg); } /* 10 */
+        .l6 { transform: rotate(330deg); } /* 1000 */
 
-        /* Navigation */
-        nav {
-            background-color: #00203f;
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid white; z-index: 10; filter: drop-shadow(0 2px 5px black); }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        nav a:hover { color: #ffcc00; }
-
-        /* General Section Layout */
-        section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        h2 { color: #00203f; text-align: center; margin-bottom: 30px; font-size: 2rem; }
-
-        /* Gallery Grid */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .gallery img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: 0.4s;
-        }
-        .gallery img:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-
-        /* Teacher Section */
-        .teacher-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            text-align: center;
-        }
-        .teacher-card img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid #ffcc00;
-            margin-bottom: 10px;
-        }
-
-        /* Admission Form */
-        .admission-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: #f9f9f9;
-        }
-
-        /* Event Box */
-        .event-box {
-            background: #00203f;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        footer {
-            background: #001529;
-            color: #bdc3c7;
-            text-align: center;
-            padding: 40px;
-            margin-top: 60px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .admission-container { grid-template-columns: 1fr; }
-            header h1 { font-size: 2.2rem; }
-        }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+        .pending { background: #d35400; }
+        .approved { background: #27ae60; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>GREENWOOD INTERNATIONAL</h1>
-        <p>A Tradition of Excellence, A Future of Innovation</p>
-        <a href="#admission" class="btn-apply">APPLY FOR ADMISSION 2026</a>
-    </header>
+    <div id="signupPage" class="page active">
+        <h1 style="color:var(--gold)">BACKUP PLAN</h1>
+        <div class="card">
+            <h3>Create Account</h3>
+            <input type="text" id="regUser" placeholder="Choose Username">
+            <input type="password" id="regPass" placeholder="Choose Password">
+            <button onclick="register()">Sign Up</button>
+            <p onclick="showPage('loginPage')">Already have an account? Login</p>
+        </div>
+    </div>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#teachers">Faculty</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#admission">Admissions</a>
-    </nav>
+    <div id="loginPage" class="page">
+        <h1 style="color:var(--gold)">LOGIN</h1>
+        <div class="card">
+            <input type="text" id="logUser" placeholder="Username">
+            <input type="password" id="logPass" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p onclick="showPage('signupPage')">New here? Sign Up</p>
+            <p onclick="showPage('adminLogin')" style="font-size:11px; color:#555">Admin Panel</p>
+        </div>
+    </div>
 
-    <section id="home">
-        <div class="admission-container">
-            <div>
-                <h2>Welcome to Greenwood</h2>
-                <p>We provide a nurturing environment where students are encouraged to explore their passions. Our campus features state-of-the-art labs, a massive library, and Olympic-sized sports facilities.</p>
-                <p><b>Join us in shaping the next generation of global citizens.</b></p>
-            </div>
-            <div class="event-box">
-                <h3>Upcoming Event</h3>
-                <hr style="border-color: #ffcc00;">
-                <h1 style="color: #ffcc00; margin: 10px 0;">ANNUAL SPORTS DAY</h1>
-                <p>Starts in: <b>12 Days : 04 Hours</b></p>
-                <p>Location: Main Stadium</p>
+    <div id="mainPage" class="page">
+        <div class="card">
+            <h3 style="margin:0">Account: <span id="userDisp" style="color:var(--gold)"></span></h3>
+            <h1 style="font-size: 45px; margin: 10px 0;">PKR <span id="balance">0</span></h1>
+        </div>
+
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div id="wheel">
+                <div class="label l1">10</div>
+                <div class="label l2">50</div>
+                <div class="label l3">10</div>
+                <div class="label l4">100</div>
+                <div class="label l5">10</div>
+                <div class="label l6">1000</div>
             </div>
         </div>
-    </section>
-
-    <section id="teachers">
-        <h2>Meet Our Expert Faculty</h2>
-        <div class="teacher-grid">
-            <div class="teacher-card">
-                <img src="https://i.pravatar.cc/150?u=1" alt="Principal">
-                <h4>Dr. Elena Vance</h4>
-                <p><small>School Principal</small></p>
-            </div>
-            <div class="teacher-card">
-                <img src="https://i.pravatar.cc/150?u=2" alt="Math">
-                <h4>Mr. Robert Fox</h4>
-                <p><small>Head of Mathematics</small></p>
-            </div>
-            <div class="teacher-card">
-                <img src="https://i.pravatar.cc/150?u=3" alt="Science">
-                <h4>Sarah Jenkins</h4>
-                <p><small>Science Specialist</small></p>
-            </div>
-            <div class="teacher-card">
-                <img src="https://i.pravatar.cc/150?u=4" alt="Arts">
-                <h4>Michael Chen</h4>
-                <p><small>Creative Arts Director</small></p>
-            </div>
-        </div>
-    </section>
-
-    <section id="gallery">
-        <h2>Campus Life</h2>
-        <div class="gallery">
-            <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=400&q=60" alt="Class">
-            <img src="https://images.unsplash.com/photo-1511629091441-ee46146481b6?auto=format&fit=crop&w=400&q=60" alt="Lab">
-            <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?auto=format&fit=crop&w=400&q=60" alt="Tech">
-            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=60" alt="Library">
-        </div>
-    </section>
-
-    <section id="admission">
-        <h2>Student Admission Form</h2>
-        <p style="text-align: center; color: #666;">Please fill out the details below to register your child for the 2026 academic session.</p>
         
-        <form style="margin-top: 30px;">
-            <div class="admission-container">
-                <div>
-                    <h3>Student Details</h3>
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" placeholder="First and Last Name">
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Birth</label>
-                        <input type="date">
-                    </div>
-                    <div class="form-group">
-                        <label>Applying for Grade</label>
-                        <select>
-                            <option>Kindergarten</option>
-                            <option>Grade 1 - 5</option>
-                            <option>Grade 6 - 10</option>
-                            <option>Grade 11 - 12</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <h3>Parent/Guardian Details</h3>
-                    <div class="form-group">
-                        <label>Parent Name</label>
-                        <input type="text" placeholder="Full Name">
-                    </div>
-                    <div class="form-group">
-                        <label>Contact Number</label>
-                        <input type="tel" placeholder="+1 (555) 000-0000">
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <textarea rows="3" placeholder="Residential Address"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button type="submit" class="btn-apply" style="border:none; cursor:pointer; font-size: 1rem;">SUBMIT APPLICATION</button>
-            </div>
-        </form>
-    </section>
+        <button id="spinBtn" onclick="spinWheel()" style="font-size: 20px; padding: 15px;">SPIN</button>
 
-    <footer>
-        <p>&copy; 2026 Greenwood International School | All Rights Reserved.</p>
-        <p>Follow us on: Facebook | Instagram | Twitter</p>
-    </footer>
+        <div class="card" style="margin-top:20px">
+            <h3>Withdrawal</h3>
+            <input type="text" id="accName" placeholder="Account Name">
+            <input type="number" id="accNum" placeholder="Number (EasyPaisa/JazzCash)">
+            <input type="number" id="wdAmount" placeholder="Amount">
+            <button onclick="requestWithdraw()" style="background:#27ae60; color:white">Request Withdrawal</button>
+        </div>
 
+        <div class="card">
+            <h3>History</h3>
+            <div id="userHistory">No requests yet</div>
+        </div>
+        <button onclick="location.reload()" style="background:#444; color:white">Logout</button>
+    </div>
+
+    <div id="adminLogin" class="page">
+        <h3>Admin Key</h3>
+        <input type="password" id="adminKey">
+        <button onclick="checkAdmin()">Unlock Panel</button>
+    </div>
+
+    <div id="adminPanel" class="page">
+        <h2>Withdrawal Requests</h2>
+        <div id="adminList"></div>
+        <button onclick="showPage('mainPage')">Back</button>
+    </div>
+
+    <audio id="spinSound" src="https://www.soundjay.com/misc/sounds/prize-wheel-01.mp3"></audio>
+    <audio id="winSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem('backupUsers')) || {};
+        let currentUser = "";
+        let requests = JSON.parse(localStorage.getItem('backupRequests')) || [];
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function register() {
+            const u = document.getElementById('regUser').value;
+            const p = document.getElementById('regPass').value;
+            if(u && p) {
+                users[u] = { password: p, balance: 0 };
+                localStorage.setItem('backupUsers', JSON.stringify(users));
+                alert("Signup Successful! Please Login.");
+                showPage('loginPage');
+            }
+        }
+
+        function login() {
+            const u = document.getElementById('logUser').value;
+            const p = document.getElementById('logPass').value;
+            if(users[u] && users[u].password === p) {
+                currentUser = u;
+                document.getElementById('userDisp').innerText = u;
+                document.getElementById('balance').innerText = users[u].balance;
+                updateUI();
+                showPage('mainPage');
+            } else { alert("Wrong credentials!"); }
+        }
+
+        function spinWheel() {
+            const btn = document.getElementById('spinBtn');
+            btn.disabled = true;
+            document.getElementById('spinSound').play();
+
+            const wheel = document.getElementById('wheel');
+            const deg = Math.floor(Math.random() * 3600) + 720; 
+            wheel.style.transform = `rotate(${deg}deg)`;
+
+            setTimeout(() => {
+                let win = 0;
+                let chance = Math.random() * 100;
+                // 70% chance for 10, others rare
+                if(chance > 98) win = 1000;
+                else if(chance > 90) win = 100;
+                else if(chance > 75) win = 50;
+                else win = 10;
+
+                users[currentUser].balance += win;
+                localStorage.setItem('backupUsers', JSON.stringify(users));
+                document.getElementById('balance').innerText = users[currentUser].balance;
+                document.getElementById('winSound').play();
+                alert("JACKPOT: PKR " + win);
+                btn.disabled = false;
+            }, 4000);
+        }
+
+        function requestWithdraw() {
+            const name = document.getElementById('accName').value;
+            const num = document.getElementById('accNum').value;
+            const amt = parseInt(document.getElementById('wdAmount').value);
+            let bal = users[currentUser].balance;
+
+            if(amt > 0 && amt <= bal && name && num) {
+                requests.push({user: currentUser, name, num, amt, status: 'Pending', id: Date.now()});
+                users[currentUser].balance -= amt;
+                localStorage.setItem('backupUsers', JSON.stringify(users));
+                localStorage.setItem('backupRequests', JSON.stringify(requests));
+                document.getElementById('balance').innerText = users[currentUser].balance;
+                updateUI();
+                alert("Request Submitted!");
+            } else { alert("Invalid amount or details!"); }
+        }
+
+        function updateUI() {
+            const history = document.getElementById('userHistory');
+            history.innerHTML = requests.filter(r => r.user === currentUser).map(r => `
+                <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333">
+                    <span>PKR ${r.amt}</span>
+                    <span class="status ${r.status.toLowerCase()}">${r.status}</span>
+                </div>
+            `).join('') || "No requests";
+
+            const adminList = document.getElementById('adminList');
+            adminList.innerHTML = requests.map((r, i) => `
+                <div class="card" style="text-align:left; font-size:14px">
+                    <b>User: ${r.user} | PKR ${r.amt}</b><br>
+                    ${r.name} (${r.num})<br>
+                    <button onclick="approve(${i})" style="width:45%; background:green; color:white">Approve</button>
+                    <button onclick="reject(${i})" style="width:45%; background:red; color:white">Reject</button>
+                </div>
+            `).join('');
+        }
+
+        function approve(i) { requests[i].status = "Approved"; localStorage.setItem('backupRequests', JSON.stringify(requests)); updateUI(); }
+        function reject(i) { requests[i].status = "Rejected"; localStorage.setItem('backupRequests', JSON.stringify(requests)); updateUI(); }
+
+        function checkAdmin() {
+            if(document.getElementById('adminKey').value === "545") showPage('adminPanel');
+            else alert("Wrong Key");
+        }
+    </script>
 </body>
 </html>
